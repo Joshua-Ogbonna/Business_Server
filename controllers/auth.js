@@ -46,10 +46,11 @@ exports.register = async (req, res, next) => {
         });
         let newBusiness = business.save();
         const token = jwt.sign({ user: newBusiness._id }, process.env.SECRET);
-        res.status(200).json({
-          success: true,
-          token: token,
-        });
+        res
+          .cookie("token", token, {
+            httpOnly: true,
+          })
+          .send();
       });
     });
   } catch (error) {
@@ -84,11 +85,21 @@ exports.login = async (req, res, next) => {
       message: "Incorrect Password!",
     });
   }
-  res.status(200).json({
-    success: true,
-    data: businessInfo
-  })
+  const token = jwt.sign({ user: businessInfo._id }, process.env.SECRET);
+  res
+    .cookie("token", token, {
+      httpOnly: true,
+    })
+    .send();
 };
+
+// Logout route
+exports.logout = (req, res, next) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0)
+  }).send()
+}
 
 exports.forgotPassword = (req, res, next) => {
   res.json("Reset Password Route");
