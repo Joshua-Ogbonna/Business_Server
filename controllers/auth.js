@@ -45,7 +45,7 @@ exports.register = async (req, res, next) => {
           noOfEmployees,
         });
         let newBusiness = business.save();
-        const token = jwt.sign({ user: newBusiness._id }, process.env.SECRET);
+        const token = jwt.sign({ user: newBusiness }, process.env.SECRET);
         res
           .cookie("token", token, {
             httpOnly: true,
