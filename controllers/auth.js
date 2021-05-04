@@ -85,7 +85,7 @@ exports.login = async (req, res, next) => {
       message: "Incorrect Password!",
     });
   }
-  const token = jwt.sign({ user: businessInfo._id }, process.env.SECRET);
+  const token = jwt.sign({ user: businessInfo }, process.env.SECRET);
   res
     .cookie("token", token, {
       httpOnly: true,
@@ -99,6 +99,13 @@ exports.logout = (req, res, next) => {
     httpOnly: true,
     expires: new Date(0)
   }).send()
+}
+
+// Get user routes
+exports.getUser = (req, res, next) => {
+  res.status(200).json({
+    data: req.user
+  })
 }
 
 exports.forgotPassword = (req, res, next) => {
