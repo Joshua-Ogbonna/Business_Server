@@ -67,12 +67,12 @@ exports.login = async (req, res, next) => {
   let { email, password } = req.body;
   let errorMessage = "";
 
-  if (!email || !password) {
-    errorMessage = !email ? "Email is required" : "Password is required";
-    return res.json({
-      message: errorMessage,
-    });
-  }
+  // if (!email || !password) {
+  //   errorMessage = !email ? "Email is required" : "Password is required";
+  //   return res.json({
+  //     message: errorMessage,
+  //   });
+  // }
   let businessInfo = await Business.findOne({ email });
   if (!businessInfo) {
     return res.status(404).json({
